@@ -3,29 +3,20 @@ class IShow:
         """ Show some data """
 
 class IRead:
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-    
+    """ Read some data"""
     def read(self,file_name):
         with open(file_name, 'rt') as f:                
             read_file = file_name.read(f)
         return read_file
 
-class IWrite(IInterface):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-    
+class IWrite:
+    """Wtite some data"""
     def write(self,file_name,write_data):
         with open(file_name, 'wt') as f:
             f.write(write_data)
 
-class IAdd(IInterface):
-    
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-    
+class IAdd:
+    """Add some data to file"""
     def add(self,file_name,add_data):
         with open(file_name, 'at') as f:
             f.write(add_data)
@@ -34,10 +25,16 @@ class IAdd(IInterface):
 class IShaker(object):
 
     def add_ingridient(self):
-        pass
+        """Add Ingridient to the Menu"""
 
     def edit_ingridient(self):
-        pass
+        """Edit Ingridient in the Menu"""
 
     def shake_mix(self):
-        pass
+        """Create mix of ingridients"""
+    
+    def add_cctail(self):
+        """Add Coctail to the Menu"""
+    
+    def edit_coctail(self):
+        """Edit Coctail in the Menu"""
