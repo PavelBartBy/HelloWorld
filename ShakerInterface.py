@@ -17,13 +17,12 @@ class IWrite:
 
 class IAdd:
     """Add some data to file"""
-    def add(self,file_name,add_data):
-        with open(file_name, 'at') as f:
-            f.write(add_data)
-
-
+  
 class IShaker(object):
-
+    
+    def __eq__(self, other): 
+        return self.__dict__ == other.__dict__
+        
     def add_ingridient(self):
         """Add Ingridient to the Menu"""
 
@@ -33,7 +32,7 @@ class IShaker(object):
     def shake_mix(self):
         """Create mix of ingridients"""
     
-    def add_cctail(self):
+    def add_coctail(self):
         """Add Coctail to the Menu"""
     
     def edit_coctail(self):
