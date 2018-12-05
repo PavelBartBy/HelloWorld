@@ -25,7 +25,7 @@ class Menu(HotDrink,Liquor,Juce,Soda,Syrop):
                     ingridient_dict[j]=Syrop.add_syrop(self)
                 elif x=="stop":
                     break
-            j+=1
+                j+=1
             Ingridient.add(self,'Ingridients.pickle',ingridient_dict)
     
     def coctails_to_file(self):
@@ -38,8 +38,3 @@ class Menu(HotDrink,Liquor,Juce,Soda,Syrop):
                 break
         Coctail.add(self,'Coctails.pickle', coctails_list)
          
-
-#Test
-"""p=Menu()
-p.add_ingridients()
-print(p.read('Ingridients.pickle'))"""

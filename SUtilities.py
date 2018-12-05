@@ -1,4 +1,4 @@
-import sys
+import sys,random, string
 
 
 def check_len(input_data):
@@ -14,3 +14,10 @@ def check_digit(input_data=''):
         pass
     else:
         raise "Wrong input data"
+
+def random_name():
+    random_name=''
+    l1=random.randrange(65,90,1)
+    lit=string.ascii_lowercase
+    random_name=chr(l1)+''.join(random.choice(lit) for _ in range(1,9))
+    return random_name

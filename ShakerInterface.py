@@ -1,28 +1,18 @@
-class IShow:
+class IInterface(object):
     def show(self):
         """ Show some data """
 
-class IRead:
-    """ Read some data"""
     def read(self,file_name):
-        with open(file_name, 'rt') as f:                
-            read_file = file_name.read(f)
-        return read_file
+        """ Read some data"""
+    
+    def write(self,file_name):
+        """Wtite some data"""
 
-class IWrite:
-    """Wtite some data"""
-    def write(self,file_name,write_data):
-        with open(file_name, 'wt') as f:
-            f.write(write_data)
-
-class IAdd:
-    """Add some data to file"""
+    def add(self,*args):
+        """Add some data to file"""
   
 class IShaker(object):
-    
-    def __eq__(self, other): 
-        return self.__dict__ == other.__dict__
-        
+            
     def add_ingridient(self):
         """Add Ingridient to the Menu"""
 
@@ -37,3 +27,16 @@ class IShaker(object):
     
     def edit_coctail(self):
         """Edit Coctail in the Menu"""
+    
+    def get_name(self):
+        """Get name of some drink"""
+
+    def get_volume(self):
+        """Get some volume of some drink"""
+    
+    def get_price(self):
+        """ Get some price of some drink"""
+    
+    def get_alc(self):
+        """Get alchohol degree of some drink"""
+    
