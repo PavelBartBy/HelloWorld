@@ -19,7 +19,7 @@ class IShaker(object):
     def edit_ingridient(self):
         """Edit Ingridient in the Menu"""
 
-    def shake_mix(self):
+    def create_coctail(self):
         """Create mix of ingridients"""
     
     def add_coctail(self):

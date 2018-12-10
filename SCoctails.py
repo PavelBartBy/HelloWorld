@@ -1,15 +1,15 @@
 from ShakerInterface import IShaker
 from SIngridient import *
 import pickle,sys
-from SUtilities import *
+#from SUtilities import *
 
 
 class Coctail(IShaker,IInterface):
 
     def __init__(self,coctail_name,args=[]):
-        super().__init__(self)
+        super().__init__()
         self.coctail_name=coctail_name
-        self.args=args
+        self.args=args                  #List of ingridient indexes
     
     def add(self,file_name,add_data):
         with open(file_name, 'wb') as f:
@@ -38,21 +38,24 @@ class Coctail(IShaker,IInterface):
             if z=='stop':
                 break
             else:
-                check_digit(z)
-                ap.append(z)
+                if check_digit(z)==True:
+                    ap.append(z)
+                else:
+                    break
         return Coctail(ai,ap)
 
     def get_price(self):
         num_this=self.args
         ingr=self.read('Ingridient.pickle')
+        coctail_price=0
         for i in num_this:
             for w,z in ingr.items():
                 if int(i)==int(w):
-                    coctail_price+=int(z.price)        
+                    coctail_price+=int(z.ingridient_price)        
         return coctail_price
 
     def get_volume(self):
-        num_this=self.args
+        num_this=some_coctail.args
         ingr=self.read('Ingridient.pickle')
         for i in num_this:
             for w,z in ingr.items():
@@ -61,7 +64,7 @@ class Coctail(IShaker,IInterface):
         return coctail_volume
 
     def get_alc(self):
-        num_this=self.args
+        num_this=some_coctail.args
         ingr=self.read('Ingridient.pickle')
         for i in num_this:
             for w,z in ingr.items():

@@ -37,4 +37,30 @@ class Menu(HotDrink,Liquor,Juce,Soda,Syrop):
             if x=='no':
                 break
         Coctail.add(self,'Coctails.pickle', coctails_list)
-         
+
+    def ingridients_fxls(self,dict):
+        ingridients={}
+        m=0
+        for i in dict[0:5]:   #Parametres for HotDrinks      
+            ingridients[m]=HotDrink(i[0:4][0],i[0:4][1],i[0:4][2],i[0:4][3])
+            m+=1
+        for i in dict[5:9]:
+            ingridients[m]=Liquor(i[0:4][0],i[0:4][1],i[0:4][2],i[0:4][3])
+            m+=1
+        for i in dict[9:12]:
+            ingridients[m]=Juce(i[0:3][0],i[0:3][1],i[0:3][2])
+            m+=1
+        for i in dict[12:15]:
+            ingridients[m]=Soda(i[0:3][0],i[0:3][1],i[0:3][2])
+            m+=1
+        for i in dict[15:18]:
+            ingridients[m]=Syrop(i[0:3][0],i[0:3][1],i[0:3][2])
+            m+=1
+        return ingridients
+
+    def coctails_fxls(self,dict):
+        coctails=[]
+        for i in range(0,8):
+            coctails.append(Coctail(dict[i][0],dict[i][1]))
+        return coctails
+
