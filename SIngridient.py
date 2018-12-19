@@ -1,73 +1,32 @@
-from ShakerInterface import IShaker,IInterface
 import pickle
-#from SUtilities import *
+from ShakerInterface import IShaker
+from SUtilities import Utilities,ReadersFactory
 
 
-class Ingridient(IShaker,IInterface):
+class Ingridient(IShaker):
 
     def __init__(self,*args, **kwargs):
-        IShaker.__init__(self)
-        IInterface.__init__(self)
-    
-    def write(self):
-        pass
-    
-    def add(self,file_name,add_data):
-        with open(file_name, 'wb') as f:
-            pickle.dump(add_data,f)
+        super.__class__.__init__()
     
     def read(self,file_name):
-        with open (file_name, 'rb') as f:
-            data_new=pickle.load(f)
+        data_new=ReadersFactory.read(self,file_name)
         return data_new
     
     def show(self,file_name):
-        ingridient_dict=Ingridient.read(self,file_name)
+        ingridient_dict=self.read(file_name)
         for i,j in ingridient_dict.items(): 
             print(i+ ' '+ j.ingridient_name)
     
-    def check_ingridienttype(self,ingr):
-        """Check that add Alchohol or NoAlchohok ingridient"""
-        if Alchohol in ingr.__bases__:
-            return True
-        else:
-            return False
-
-    def add_ingridient(self,check_ingridienttype):
-
-        """Create new ingridient"""
-        if check_ingridienttype==True:
-            while True:
-                while True:
-                    ai=input('Enter new ingridient name ')
-                    av=input('Enter volume of ingridient ')
-                    if check_digit(av)==False:
-                        break
-                    ap=input('Enter price of ingridient ')
-                    if check_digit(ap)==False:
-                        break
-                    ad=input('Enter alchoholdegree of ingridient ')
-                    if check_digit(ad)==False:
-                        break
-                    break
-                break
-            return ai,av,ap,ad
-        else:
-            while True:
-                while True:
-                    ai=input('Enter new ingridient name ')
-                    av=input('Enter volume of ingridient ')
-                    if check_digit(av)==False:
-                        break
-                    ap=input('Enter price of ingridient ')
-                    if check_digit(ap)==False:
-                        break
-                    break
-                break
-            return ai,av,ap 
+    def write(self,data):
+        with open('ingridients.pickle', 'wb') as f:
+            pickle.dump(data, f)
     
-    def edit_ingridient(self):
-        """Cant to realize now"""
+    # def check_ingridienttype(self,ingr):
+    #     """Check that add Alchohol or NoAlchohok ingridient"""
+    #     if Alchohol in ingr.__bases__:
+    #         return 1
+    #     else:
+    #         return 0
 
 class Alchohol(Ingridient):
 
@@ -78,18 +37,20 @@ class Alchohol(Ingridient):
         self.ingridient_price=ingridient_price
         self.ingridient_alc=ingridient_alc
 
-    def get_name(self):
-        return self.ingridient_name
-
-    def get_volume(self):
-        return self.ingridient_volume
-
-    def get_price(self):
-        return self.ingridient_price
-
-    def get_alc(self):
-        return self.ingridient_alc
-
+    def add_ingridient(self):
+        """Create new ingridient"""
+        parametres_list=[]
+        while True:
+            new_name=input('Enter new name ')
+            new_volume=input('Enter volume ')
+            new_price=input('Enter price  ')
+            new_alc=input('Enter alchoholdegree  ')
+            if Utilities.check_digit(new_volume or new_price or new_alc)==False:
+                        break
+            parametres_list.append(new_name,new_volume,new_price,new_alc)
+            break
+        return parametres_list
+     
 class NoAlchohol(Ingridient):
 
     def __init__(self, ingridient_name,ingridient_volume,ingridient_price):
@@ -97,18 +58,19 @@ class NoAlchohol(Ingridient):
         self.ingridient_name=ingridient_name
         self.ingridient_volume=ingridient_volume
         self.ingridient_price=ingridient_price
-    
-    def get_name(self):
-        return self.ingridient_name
-    
-    def get_name(self):
-        return self.ingridient_name
 
-    def get_volume(self):
-        return self.ingridient_volume
+    def add_ingridient(self):
 
-    def get_price(self):
-        return self.ingridient_price
+        parametres_list=[]
+        while True:
+            new_name=input('Enter new name ')
+            new_volume=input('Enter volume ')
+            new_price=input('Enter price  ')
+            if Utilities.check_digit(new_volume or new_price)==False:
+                        break
+            parametres_list.append(new_name,new_volume,new_price)
+            break
+        return parametres_list
        
 class HotDrink(Alchohol):
 
@@ -116,17 +78,19 @@ class HotDrink(Alchohol):
         super().__init__(ingridient_name,ingridient_volume,ingridient_price,ingridient_alc)
        
     def add_hotdrink(self):
-        my_ai, my_iv, my_ap, my_ad = Ingridient.add_ingridient(self,True)
-        return HotDrink(my_ai,my_iv,my_ap,my_ad)
+        """ 'ingr' means ingridient"""
+        param_list = self.add_ingridient()
+        return HotDrink(param_list[0], param_list[1], param_list[2], param_list[3])
     
 class Liquor(Alchohol):
 
     def __init__(self,ingridient_name,ingridient_volume,ingridient_price,ingridient_alc):
         super().__init__(ingridient_name,ingridient_volume,ingridient_price,ingridient_alc)
 
-    def add_liqour(self):
-        my_ai, my_iv, my_ap, my_ad = Ingridient.add_ingridient(self,True)
-        return Liquor (my_ai, my_iv, my_ap, my_ad)
+    def add_liquor(self):
+        """ 'ingr' means ingridient"""
+        param_list = self.add_ingridient()
+        return Liquor (param_list[0], param_list[1], param_list[2], param_list[3])
 
 class Juce(NoAlchohol):
     
@@ -134,8 +98,9 @@ class Juce(NoAlchohol):
         super().__init__(ingridient_name,ingridient_volume,ingridient_price)
 
     def add_juce(self):
-        my_ai, my_iv, my_ap=Ingridient.add_ingridient(self,False)
-        return Juce(my_ai, my_iv, my_ap)
+        """ 'ingr' means ingridient"""
+        param_list=self.add_ingridient()
+        return Juce(param_list[0], param_list[1], param_list[2])
 
 class Soda(NoAlchohol):
     
@@ -143,8 +108,9 @@ class Soda(NoAlchohol):
         super().__init__(ingridient_name,ingridient_volume,ingridient_price)
 
     def add_soda(self):
-        my_ai, my_iv, my_ap=Ingridient.add_ingridient(self,False)
-        return Soda(my_ai, my_iv, my_ap)
+        """ 'ingr' means ingridient"""
+        param_list=self.add_ingridient()
+        return Soda(param_list[0], param_list[1], param_list[2])
 
 class Syrop(NoAlchohol):
 
@@ -152,5 +118,6 @@ class Syrop(NoAlchohol):
         super().__init__(ingridient_name,ingridient_volume,ingridient_price)
 
     def add_syrop(self):
-        my_ai, my_iv, my_ap=Ingridient.add_ingridient(self,False)
-        return Syrop(my_ai, my_iv, my_ap)
+        """ 'ingr' means ingridient"""
+        param_list=self.add_ingridient()
+        return Syrop(param_list[0], param_list[1], param_list[2])

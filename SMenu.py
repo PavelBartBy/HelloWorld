@@ -1,33 +1,27 @@
-from SIngridient import HotDrink,Liquor,Juce,Soda,Syrop,Ingridient
+from SIngridient import Ingridient
+from SIngridient import HotDrink,Liquor,Juce,Soda,Syrop
 from SCoctails import Coctail
 
 
-class Menu(HotDrink,Liquor,Juce,Soda,Syrop):
+class Menu(Ingridient):
 
-    def __init__(self):
-        Ingridient.__init__(self)
-       
     def ingridients_to_file(self):
-            ingridient_dict={}
-            j=0
-            while True:
-                x=input("Choose type of ingridient: HotDrink, Liqour, Juce, Soda, Syrop  or stop ") 
-                if x=="HotDrink":
-                    ingridient_dict[j]=HotDrink.add_hotdrink(self)
-                    print('Done')
-                elif x=="Liqour":
-                    ingridient_dict[j]=Liquor.add_liqour(self)
-                elif x=="Juce":
-                    ingridient_dict[j]=Juce.add_juce(self)
-                elif x=="Soda":
-                    ingridient_dict[j]=Soda.add_soda(self)
-                elif x=="Syrop":
-                    ingridient_dict[j]=Syrop.add_syrop(self)
-                elif x=="stop":
-                    break
-                j+=1
-            Ingridient.add(self,'Ingridients.pickle',ingridient_dict)
-    
+        libs={'HotDtink': HotDrink.add_hotdrink(self)
+            , 'Liqour': Liquor.add_liqour(self)
+            , 'Soda': Soda.add_soda(self)
+            , 'Syrop': Syrop.add_syrop(self)
+             }
+        ingridient_dict={}
+        j=0
+        x=''
+        while x!='stop':
+            x=input("Choose type of ingridient: HotDrink, Liqour, Juce, Soda, Syrop  or stop ")
+            for i in libs.keys():
+                if x==i:
+                    ingridient_dict[j]=libs.get(i)
+                    j+=1
+        self.write(ingridient_dict)           
+   
     def coctails_to_file(self):
         coctails_list=[]
         while True:
@@ -36,31 +30,6 @@ class Menu(HotDrink,Liquor,Juce,Soda,Syrop):
                 coctails_list.append(Coctail.add_coctail(self))
             if x=='no':
                 break
-        Coctail.add(self,'Coctails.pickle', coctails_list)
+        Coctail.write(self, coctails_list)
 
-    def ingridients_fxls(self,dict):
-        ingridients={}
-        m=0
-        for i in dict[0:5]:   #Parametres for HotDrinks      
-            ingridients[m]=HotDrink(i[0:4][0],i[0:4][1],i[0:4][2],i[0:4][3])
-            m+=1
-        for i in dict[5:9]:
-            ingridients[m]=Liquor(i[0:4][0],i[0:4][1],i[0:4][2],i[0:4][3])
-            m+=1
-        for i in dict[9:12]:
-            ingridients[m]=Juce(i[0:3][0],i[0:3][1],i[0:3][2])
-            m+=1
-        for i in dict[12:15]:
-            ingridients[m]=Soda(i[0:3][0],i[0:3][1],i[0:3][2])
-            m+=1
-        for i in dict[15:18]:
-            ingridients[m]=Syrop(i[0:3][0],i[0:3][1],i[0:3][2])
-            m+=1
-        return ingridients
-
-    def coctails_fxls(self,dict):
-        coctails=[]
-        for i in range(0,8):
-            coctails.append(Coctail(dict[i][0],dict[i][1]))
-        return coctails
 

@@ -10,8 +10,11 @@ class IInterface(object):
 
     def add(self,*args):
         """Add some data to file"""
-  
-class IShaker(object):
+
+    def edit(self,*args):
+        """Edit some data"""
+
+class IShaker(IInterface):
             
     def add_ingridient(self):
         """Add Ingridient to the Menu"""
@@ -27,16 +30,3 @@ class IShaker(object):
     
     def edit_coctail(self):
         """Edit Coctail in the Menu"""
-    
-    def get_name(self):
-        """Get name of some drink"""
-
-    def get_volume(self):
-        """Get some volume of some drink"""
-    
-    def get_price(self):
-        """ Get some price of some drink"""
-    
-    def get_alc(self):
-        """Get alchohol degree of some drink"""
-    

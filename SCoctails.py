@@ -1,83 +1,72 @@
 from ShakerInterface import IShaker
-from SIngridient import *
+from SIngridient import HotDrink,Liquor,Juce,Soda,Syrop
+from SUtilities import Utilities,ReadersFactory
 import pickle,sys
-#from SUtilities import *
 
 
-class Coctail(IShaker,IInterface):
+class Coctail(IShaker):
 
     def __init__(self,coctail_name,args=[]):
         super().__init__()
         self.coctail_name=coctail_name
         self.args=args                  #List of ingridient indexes
-    
-    def add(self,file_name,add_data):
-        with open(file_name, 'wb') as f:
-            pickle.dump(add_data,f)
-    
+
     def read(self,file_name):
-        with open (file_name, 'rb') as f:
-            data_new=pickle.load(f)
+        data_new=ReadersFactory.read(self,file_name)
         return data_new
     
     def show(self,file_name):
-        ingridient_dict=Ingridient.read(self,file_name)
-        for i,j in ingridient_dict.items(): 
-            print(i+ ' '+ j.ingridient_name)
-
-    def write(self):
-        pass
+        coctil_dict=self.read(file_name)
+        for i,j in coctail_dict.items(): 
+            print(i+ ' '+ j.coctail_name)
+    
+    def write(self,data):
+        with open('coctails.pickle', 'wb') as f:
+            pickle.dump(data, f)
 
     def add_coctail(self):             
         """Add new coctail"""
-        ai=input('Enter new coctail name ')
-        Ingridient.show(self,'Ingridients.pickle')
-        ap=[]
+        new_coctail=input('Enter new coctail name ')
+        self.show('Ingridients.pickle')
+        ingridient_list=[]
         while True:
-            z=input('Enter № of ingridients or stop')
-            if z=='stop':
+            ingr_number=input('Enter № of ingridients or stop')
+            if ingr_number=='stop':
                 break
+            elif Utilities.check_digit(self,ingr_number)==True:
+                ingridient_list.append(ingr_number)
             else:
-                if check_digit(z)==True:
-                    ap.append(z)
-                else:
-                    break
-        return Coctail(ai,ap)
+                break
+        return Coctail(coctail_name,ingridient_list)
 
     def get_price(self):
-        num_this=self.args
+        ingridient_list=self.args
         ingr=self.read('Ingridient.pickle')
         coctail_price=0
-        for i in num_this:
+        for i in ingridient_list:
             for w,z in ingr.items():
                 if int(i)==int(w):
                     coctail_price+=int(z.ingridient_price)        
         return coctail_price
 
     def get_volume(self):
-        num_this=some_coctail.args
+        ingridient_list=self.args
         ingr=self.read('Ingridient.pickle')
-        for i in num_this:
+        for i in ingridient_list:
             for w,z in ingr.items():
                 if int(i)==int(w):
                     coctail_volume+=int(z.volume)
         return coctail_volume
 
     def get_alc(self):
-        num_this=some_coctail.args
+        ingridient_list=self.args
         ingr=self.read('Ingridient.pickle')
-        for i in num_this:
+        for i in ingridient_list:
             for w,z in ingr.items():
                 if int(i)==int(w):
                     coctail_volume+=int(z.volume)
                     if hasattr(z,'alc_degree'):
                         coctail_alc_degree_temp+=float(z.alc_degree)
-        coctail_alc_degree=coctail_alc_degree_temp/len(num_this)*coctail_volume/1000
+        coctail_alc_degree=coctail_alc_degree_temp/len(ingridient_list)*coctail_volume/1000
         return coctail_alc_degree
-
-    def get_name(self):
-        return self.coctail_name
-
-    def edit_coctail(self):
-        """Cant to realize now"""
 
