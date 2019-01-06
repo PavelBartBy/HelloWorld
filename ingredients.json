@@ -1,0 +1,53 @@
+{
+  "ingredient": {
+    "hotdrink": {
+      "vodka": {
+        "volume": 50,
+        "price": 8,
+        "alc_degree": 40
+      },
+      "wisky": {
+        "volume": 80,
+        "price": 9,
+        "alc_degree": 42
+      },
+      "rum": {
+        "volume": 90,
+        "price": 11,
+        "alc_degree": 41
+      }
+    },
+    "liquor": {
+      "banana": {
+        "volume": 25,
+        "price": 4,
+        "alc_degree": 19
+      },
+      "kahlua": {
+        "volume": 60,
+        "price": 5,
+        "alc_degree": 25
+      }
+    },
+    "juce": {
+      "orange": {
+        "volume": 200,
+        "price": 4
+      },
+      "apple": {
+        "volume": 110,
+        "price": 3
+      }
+    },
+    "soda": {
+      "cola": {
+        "volume": 150,
+        "price": 2
+      },
+      "sprite": {
+        "volume": 180,
+        "price": 2
+      }
+    }
+  }
+}

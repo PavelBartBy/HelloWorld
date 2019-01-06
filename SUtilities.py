@@ -1,7 +1,5 @@
 import sys,random,string
-import xlrd, xlwt
-import csv, pathlib
-import pickle
+import logging
 from ShakerInterface import IInterface
 
 
@@ -34,10 +32,8 @@ class CSVReader(IInterface):
 
     def read(self, file_name):
         """Read from .csv file"""
-        """
-        :param file_name: include file location and file name
-        :return: array of data from file
-        """
+
+        import csv
         csv_data=[]  
         with open(file_name) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
@@ -55,6 +51,8 @@ class XLSReader(IInterface):
     
     def read(self,file_name):
         """Read from .xls file"""
+
+        import xlrd, xlwt
         readbook = xlrd.open_workbook(file_name,formatting_info=True)
         sheet = readbook.sheet_by_index(0)
         xls_data = [sheet.row_values(rownum) for rownum in range(sheet.nrows)]
@@ -64,9 +62,22 @@ class PickleReader(IInterface):
 
     def read(self,file_name):
         """Read from .pickle file"""
+
+        import pickle
         with open(file_name, 'rb') as f:
-            data_new = pickle.load(f)
-        return data_new
+            data = pickle.load(f)
+        return data
+
+class JsonReader(IInterface):
+
+    def read(self,file_name):
+        """Read from .json file"""
+
+        import json
+        with open(sys.argv[1], 'r') as f:
+            data=json.load(f)
+            logging.info("Read done!")
+        return data
 
 class ReadersFactory(IInterface):
     """ 
@@ -75,11 +86,13 @@ class ReadersFactory(IInterface):
     :return: array of coordinates from file
     """   
     def read(self,file_name):
+        import pathlib
         readers_dict={ '.csv': CSVReader()
                       ,'.xls': XLSReader()
                       ,'.pickle': PickleReader()
+                      ,'.json': JsonReader()
                       }
-        file_extension=Path(file_name).suffix
+        file_extension=pathlib.Path(file_name).suffix
         for i,j in readers_dict.items():
             if i==file_extension:
                 file_data=j.read(file_name)
