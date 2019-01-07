@@ -1,1 +1,1 @@
-#cleared, create new file cocktails
+#cleared, new file "cocktails" created
